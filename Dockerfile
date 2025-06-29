@@ -1,12 +1,11 @@
-# Use an OpenJDK image
-FROM openjdk:17-jdk-alpine
-
-# Set working directory
+# Step 1: Build the JAR
+FROM maven:3.9.6-eclipse-temurin-17 AS build
 WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
 
-# Add the JAR file
-ARG JAR_FILE=target/*.jar
-COPY target/SalesSavvyApp-0.0.1-SNAPSHOT app.jar
-
-# Run the application
-ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+# Step 2: Run the JAR
+FROM openjdk:17-jdk-alpine
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
+ENTRYPOINT ["java", "-jar", "app.jar"]
