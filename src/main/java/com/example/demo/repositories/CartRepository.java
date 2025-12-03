@@ -18,10 +18,16 @@ public interface CartRepository extends JpaRepository<CartItem, Integer>{
 	
 	@Query("SELECT COALESCE(SUM(c.quantity), 0) FROM CartItem c WHERE c.user.userId = :userId")
 	int countTotalItems(int userId);
-	
-	@Query("SELECT c FROM CartItem c JOIN FETCH c.product p LEFT JOIN FETCH ProductImage pi ON p.productId = pi.product.productId WHERE c.user.userId = :userId")
+
+	@Query("""
+       SELECT c 
+       FROM CartItem c
+       JOIN FETCH c.product p
+       WHERE c.user.userId = :userId
+       """)
 	List<CartItem> findCartItemWithProductDetails(int userId);
-	
+
+
 	@Query("UPDATE CartItem c SET c.quantity = :quantity WHERE c.id = :cartItemId")
 	public void updateCartItemQuantity(int cartItemId, int quantity);
 	
