@@ -42,7 +42,7 @@ public class AuthController {
 			cookie.setSecure(false); // set to true in production with HTTPS
 			cookie.setPath("/");
 			cookie.setMaxAge(7 * 24 * 60 * 60); // 7 days instead of 1 hour
-			cookie.setAttribute("SameSite", "Lax"); // Better for cross-origin
+			cookie.setAttribute("SameSite", "None"); // Better for cross-origin
 			response.addCookie(cookie);
 
 			// ❌ REMOVE THIS LINE - it's causing the malformed cookie
