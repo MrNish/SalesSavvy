@@ -74,7 +74,9 @@ public class CartService {
 		for (CartItem cartItem: cartItems) {
 			Map<String, Object> productDetails = new HashMap<>();
 			Product product = cartItem.getProduct();
-			List<ProductImage> productImages = productRepository.findByProductId(product.getProductId());
+			List<ProductImage> productImages =
+					productImageRepository.findByProduct_ProductId(product.getProductId());
+
 			String imageUrls = null;
 			
 			if (productImages!= null && !productImages.isEmpty()) {
